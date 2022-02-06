@@ -56,20 +56,20 @@ def handle_register():
     username = request.form.get("username")
     password = request.form.get("password")
     password_confirmation = request.form.get("password_confirmation")
-    
+
 #    check_if_user = user_repository.find_username(username)
 
 #    if check_if_user is not None:
 #        return render_template("register.html", error = "Username already taken")
-    
+
     if password != password_confirmation:
-        return render_template("register.html", error = "Password do not match")
-    
+        return render_template("register.html", error = "Passwords do not match")
+
     if not (username and password and password_confirmation):
         return render_template("register.html", error = "Fill all fields")
     
     if len(password) < 4:
-        return render_template("register.html", error = "Password must be at least 5 characters")
+        return render_template("register.html", error = "Password must be at least 4 characters")
 
     if len(username) < 3:
         return render_template("register.html", error = "Username must be at least 3 characters")
