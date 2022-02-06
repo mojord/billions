@@ -18,7 +18,12 @@ Pelatuista peleistä tallentuu suppea tilasto, jossa näkyy ainakin, minkä yrit
 
 Peli sisältää aluksi 5 suomalaisten suosikkiosaketta, pelivuodet 2020-2021. Ideaali olisi kaikki 15 Pörssisäätiön nimeämää "kansanosaketta" esim. 10 vuoden ajalta. Kurssit saadaan Nasdaqin datasta.
 
+# Sovelluksen tilanne 2. palautuksessa
+
+Sovelluksen pohja on valmis, mutta tietokantaominaisuuksia ja pelin kulun tarvitsemia ominaisuuksia ei ole vielä toteutettu. Tärkeänä pidettiin tässä vaiheessa rakenteen esille tuomista, eli alkusivulta voi joko rekisteröityä tai kirjautua. Rekisteröitymisen tarkistuksia on toteutettu, mutta kirjautumisen vielä ei. Kirjautumisesta siirrytään osakesalkkusivulle (Portfolio), missä (ominaisuuksien toteutuessa) voidaan luoda tai hakea salkku. Tästä siirrytään päivämääräsivulle, jossa annetaan päivämäärä, jonka kursseja halutaan tarkastella. Salkun tarkastelusivun paikka on vielä harkinnassa - tuleeko se omalle sivulle reitin tähän kohtaan vai päivämääräsivulle.  Päivämääräsivulta siirrytään osakkeen valintaan ja sieltä ostosivulle. Tämän reitin toimivuus oli tässä palautuksessa tärkein tavoite. Listaussivulle tulee vielä paluu takaisin päivämäärän antamiseen.
 
 # Heroku
+
+Sovellus on Herokun ilmoituksen mukaan saatu Herokuun onnistuneesti, mutta sitä ei saatu toimimaan Heroku-osoitteessa, vaikka se toimii paikallisesti. Ongelmaa ei ole vielä onnistuttu korjaamaan.
 
 [Billions](https://nasdaq-billions.herokuapp.com/)
