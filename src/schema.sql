@@ -1,7 +1,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    password TEXT,
+    password TEXT
 );
 
 CREATE TABLE stocks (
@@ -19,5 +19,5 @@ CREATE TABLE portfolios (
     username TEXT,
     date TEXT,
     name TEXT,
-    stock_id INTEGER REFERENCES stocks,
+    stock_id INTEGER REFERENCES stocks
 );
