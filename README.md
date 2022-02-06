@@ -19,4 +19,6 @@ Pelatuista peleistä tallentuu suppea tilasto, jossa näkyy ainakin, minkä yrit
 Peli sisältää aluksi 5 suomalaisten suosikkiosaketta, pelivuodet 2020-2021. Ideaali olisi kaikki 15 Pörssisäätiön nimeämää "kansanosaketta" esim. 10 vuoden ajalta. Kurssit saadaan Nasdaqin datasta.
 
 
+# Heroku
 
+[Heroku](https://nasdaq-billions.herokuapp.com/)
