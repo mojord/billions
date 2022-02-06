@@ -21,4 +21,4 @@ Peli sisältää aluksi 5 suomalaisten suosikkiosaketta, pelivuodet 2020-2021. I
 
 # Heroku
 
-[Heroku](https://nasdaq-billions.herokuapp.com/)
+[Billions](https://nasdaq-billions.herokuapp.com/)
