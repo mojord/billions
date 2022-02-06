@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Choose stock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+  <table class="table table-dark">
+      <thead>
+        <style>
+          table, th, td {
+            border: 1px solid black;
+          }
+          </style>
+
+    <div class="container">
+      <h1>Choose stock</h1>
+      <br>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+    <tr>
+      <th scope="col">Company</th>
+      <th scope="col">Today's price</th>
+      <th scope="col">Trades</th>
+
+    </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item[0] }}</td>
+          <td>{{ item[1] }}</td>
+          <td>{{ item[2] }}</td>
+          <td>
+            <li><a href="{{url_for('render_result', company=item[0], price=item[1], date=item[3])}}">Buy</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </body>
+</html>

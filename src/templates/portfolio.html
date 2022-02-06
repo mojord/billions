@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Portfolio</title>
+    </head>
+    <body>
+        <div class="container">
+          <h1>Portfolio</h1>
+          <b>Create my portfolio</b>
+          <br>
+          <form action="" method="post">
+            <input type="text" placeholder="Name" name="portfolio_name" value="{{request.form.portfolio_name}}">
+            <input class="btn btn-default" type="submit" value="Create">
+          </form>
+          {% if error %}
+            <p class="error"><strong>Error:</strong>strong {{ error }}
+          {% endif %}
+          <b>Find my portfolio</b>
+          <br>
+          <form action="" method="post">
+            <input type="text" placeholder="Name" name="portfolio_name" value="{{request.form.portfolio_name}}">
+            <input class="btn btn-default" type="submit" value="Find">
+          </form>
+          {% if error %}
+            <p class="error"><strong>Error:</strong>strong {{ error }}
+          {% endif %}                
+        </div>
+    </body>
+</html>

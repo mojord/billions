@@ -1,0 +1,20 @@
+<html>
+  <head>
+   <title>Give date</title>
+    </head>
+  <body>
+    <div class="container">
+      <h1>Give date</h1>
+      <p>From 01.01.2020 to 31.12.2021</p>
+      <br>
+      <form action="/choose_stock" method="post">
+        <input type="text" placeholder="dd.mm.yyyy" name="date" value="{{
+          request.form.date }}">
+        <input class="btn btn-default" type="submit" value="Enter date">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>
