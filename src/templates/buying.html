@@ -12,13 +12,12 @@
       <br>
       <form action="" method="post">
         <input type="text" placeholder="Give amount" name="amount" value="{{request.form.amount}}">
-        <input class="btn btn-default" type="submit" value="Buy">
+        <input class="btn btn-default" type="submit" name=submit_button value="Buy">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong>strong {{ error }}
       {% endif %}
       <br>
-      <li><a href="/portfolio">Return to portfolio</a></li>
     </div>
 </body>
 </html>

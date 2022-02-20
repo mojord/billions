@@ -5,24 +5,36 @@
     <body>
         <div class="container">
           <h1>Portfolio</h1>
-          <b>Create my portfolio</b>
+          <b>My portfolio</b>
+          <br>
           <br>
           <form action="" method="post">
-            <input type="text" placeholder="Name" name="portfolio_name" value="{{request.form.portfolio_name}}">
-            <input class="btn btn-default" type="submit" value="Create">
+            
+            <input class="btn btn-default" type="submit" value="Show my portfolio">
           </form>
           {% if error %}
-            <p class="error"><strong>Error:</strong>strong {{ error }}
+          <p class="error"><strong>Error:</strong> {{ error }}
           {% endif %}
-          <b>Find my portfolio</b>
+
+          <u1>
+          {{ portfolio }}
           <br>
-          <form action="" method="post">
-            <input type="text" placeholder="Name" name="portfolio_name" value="{{request.form.portfolio_name}}">
-            <input class="btn btn-default" type="submit" value="Find">
-          </form>
-          {% if error %}
-            <p class="error"><strong>Error:</strong>strong {{ error }}
-          {% endif %}                
+          <br>
+          {% for stock in stocks %}
+          <li> {{ stock.company }}     BOUGHT:  {{ stock.buy_date }}   AMOUNT: {{ stock.amount }}   PRICE: {{ stock.buy_price }} </li>
+          {% endfor %}
+          </u1>
+          <br>
+          <br>
+          <p>Today's date is {{ today }}</p>
+          <br>
+          <li><a href="/give_date">Go to stockmarket</a></li>
+          <br>
+          <br>
+          <p>Don't have one?</p>
+          <br>
+          <li><a href="/create_portfolio">Create portfolio</a></li>
+          
         </div>
     </body>
 </html>

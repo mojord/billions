@@ -4,16 +4,28 @@ html {
 
 body {
     margin: auto;    
-    background-color: lightgoldenrodyellow;    
+    background-color: lightgoldenrodyellow;
+    max-width: 45em
+    padding: 0 30px 10px 10px;
+    border: 100px burlywood;    
+}
+
+form {
+    background: lightblue;
 }
 
 h1 {
     font-size: 20px;
-    padding: 0 30px 10px 10px;
+    
 }
 
 img {
     display: block;
     margin: 0 auto;
     width: 75%;
+}
+
+
+button button-default {
+    color: brown;
 }
