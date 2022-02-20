@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Selling</title>
+    </head>
+    <body>
+{% extends "layout.html" %}
+{% block body %}        
+  <div class="container">
+      <h1>Selling</h1>
+      <p>{{ company }}</p>
+      <p>for {{ price }}</p>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Give number of batches to sell" name="number" value="{{request.form.number}}">
+        <input class="btn btn-default" type="submit" name="submit_button" value="Submit">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong>strong {{ error }}
+      {% endif %}
+      <br>
+      <u1>
+        <br>
+        <br>
+        {% for stock in sellable_stocks %}
+        <li> {{ stock.company }}   DATE BOUGHT: {{ stock.buy_date }} AMOUNT: {{stock.amount}} BUY PRICE: {{stock.buy_price}} </li>
+        {% endfor %}
+        </u1>
+        <form action="" method="post">
+          <input class="btn btn-default" type="submit" name="submit_button" value="Click to finish sale">
+        </form>
+    </div>
+</body>
+</html>
+
+{% endblock %}
