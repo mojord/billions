@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Game over</title>
+    </head>
+    <body>
+        <div class="container">
+          <h1>My transactions</h1>
+          <br>
+          <br>
+          <form action="" method="post">
+            
+            <input class="btn btn-default" type="submit" value="Show my transactions">
+          </form>
+          {% if error %}
+          <p class="error"><strong>Error:</strong> {{ error }}
+          {% endif %}
+
+          <u1>
+          {{ portfolio }}
+          <br>
+          <br>
+          {% for transaction in transactions %}
+          <li> {{ transaction.company }}     BOUGHT:  {{ transaction.buy_price }}   BANKING FEE: {{ transaction.banking }}   SOLD: {{ transaction.sell_price }} </li>
+          {% endfor %}
+          </u1>
+          <br>
+          <br>
+          <p>Bought stocks for {{ bought }}, sold stocks for {{ sold }}, paid banking fees for {{ banking }} and taxes for {{ taxes }}.</p>
+          <p>Net result was {{ result }}</p>
+          <br>
+          <li><a href="/create_portfolio">Create new portfolio</a></li>
+          
+        </div>
+    </body>
+</html>
