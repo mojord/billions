@@ -4,6 +4,13 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
+CREATE TABLE portfolios (
+    id SERIAL PRIMARY KEY,
+    owner TEXT,
+    date DATE,
+    name TEXT
+);
+
 CREATE TABLE stocks (
     id SERIAL PRIMARY KEY,
     company TEXT,
@@ -13,13 +20,6 @@ CREATE TABLE stocks (
     buy_price FLOAT,
     sell_price FLOAT,
     portfolio_id INTEGER REFERENCES portfolios
-);
-
-CREATE TABLE portfolios (
-    id SERIAL PRIMARY KEY,
-    owner TEXT,
-    date DATE,
-    name TEXT
 );
 
 CREATE TABLE transactions (
