@@ -39,6 +39,11 @@ class MarketRepository:
         result = db.session.execute(sql, {"owner":owner})
         return result.fetchone()[0]
     
+    def delete_portfolio(self, portfolio_id):
+        sql = "DELETE FROM portfolios WHERE portfolio_id =:portfolio_id"
+        db.session.execute(sql, {"portfolio_id":portfolio_id})
+        db.session.commit()
+    
     def get_sellable_stocks(self, company, portfolio_id):
         sql = "SELECT * FROM stocks WHERE company=:company AND portfolio_id=:portfolio_id AND amount >= 0 ORDER BY buy_date"
         result = db.session.execute(sql, {"company":company, "portfolio_id":portfolio_id})

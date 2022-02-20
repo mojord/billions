@@ -31,6 +31,9 @@ class MarketService:
         check = self._market_repository.check_portfolio(owner)
         return check
     
+    def delete_portfolio(self, portfolio_id):
+        self._market_repository.delete_portfolio(portfolio_id)
+    
     def get_sellable_stocks(self, company, portfolio_id):
         sellable_stocks = self._market_repository.get_sellable_stocks(company, portfolio_id)
         return sellable_stocks
