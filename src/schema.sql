@@ -1,7 +1,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    password TEXT NOTNULL
+    password TEXT NOT NULL
 );
 
 CREATE TABLE stocks (
