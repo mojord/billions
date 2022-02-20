@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<html>
+  <head>
+    <title>Create a portfolio</title>
+    
+  </head>
+  <body>
+    <div class="container">
+      <h1>Create a portfolio</h1>
+          <br>
+          <form action="" method="post">
+            <input type="text" placeholder="New portfolio name" name="portfolio_name" value="{{request.form.portfolio_name}}">            
+            <input class="btn btn-default" type="submit" value="Create new portfolio">
+          </form>
+          {% if error %}
+            <p class="error"><strong>Error:</strong>strong {{ error }}
+          {% endif %}     
+
+  </body>
+</html>
+{% endblock %}
