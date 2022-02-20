@@ -10,7 +10,7 @@ Peli tarjoaa rekisteröitymisen ja kirjautumisen toiminnot.
 Niiden jälkeen pelaaja perustaa salkun ja ostaa siihen osakkeita.
 
 Pelissä on tietokantataulut rekisteröityneille pelaajille, salkuille, osakkeille, transaktioille ja tilastotaulu aiemmille peleille.
-Salkun perustettuaan pelaaja antaa päivämäärän, jonka kursseja haluaa tarkastella. Pelaaja saa listan päivän kursseista ja vaihtomääristä. Tämän jälkeen voi joko ostaa osakkeita, myydä ostettuja osakkeita tai tarkastella toista päivämäärää. Oston tai myynnin jälkeen voi hakea seuraavaa päivää. Ajassa ei voi siirtyä taaksepäin. Osakkeiden myynti tapahtuu vanhimmat ensin -periaatteella, hiukan epärealistisesti siten, että tietyn oston osakkeet myydään kokonaan kerralla.
+Salkun perustettuaan pelaaja antaa päivämäärän, jonka kursseja haluaa tarkastella. Pelaaja saa listan päivän kursseista ja vaihtomääristä. Tämän jälkeen voi joko ostaa osakkeita, myydä ostettuja osakkeita tai tarkastella toista päivämäärää. Oston tai myynnin jälkeen voi hakea samaa tai myöhempää päivää. Ajassa ei voi siirtyä taaksepäin. Osakkeiden myynti tapahtuu vanhimmat ensin -periaatteella, hiukan epärealistisesti siten, että tietyn oston osakkeet myydään kokonaan kerralla.
 
 Peli näyttää päivämäärän mukaan myös salkun tilanteen ja sijoitusten hankintahinnan. Lopuksi peli antaa tiedot sijoituksen menestyksestä: salkun arvo, saadut osingot ja myyntituotot, pankkikulut ja verot. Verotuksessa sovelletaan kiinteää 30 %. Inflaation laskemista ei toteuteta toistaiseksi, mutta ajankohtana ne olivat pienet, 2020 keskimäärin 0,29 % ja 2021 2,2 %.
 
