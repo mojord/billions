@@ -9,6 +9,10 @@ class MarketService:
     def find_stocks(self, portfolio_id):
         stocks = self._market_repository.find_stocks(portfolio_id)
         return stocks
+    
+    def find_remaining_stocks(self, portfolio_id):
+        remaining = self._market_repository.find_remaining_stocks(portfolio_id)
+        return remaining
 
     def create_portfolio(self, owner, date, name):
         self._market_repository.create_portfolio(owner, date, name)

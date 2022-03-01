@@ -21,6 +21,11 @@ class MarketRepository:
         result = db.session.execute(sql, {"portfolio_id":portfolio_id})
         return result.fetchall()
     
+    def find_remaining_stocks(self, portfolio_id):
+        sql = "SELECT company, amount, buy_price FROM stocks WHERE portfolio_id=:portfolio_id"
+        result = db.session.execute(sql, {"portfolio_id":portfolio_id})
+        return result.fetchall()
+    
     def check_portfolio(self, owner):
         sql = "SELECT * FROM portfolios WHERE owner=:owner"
         result = db.session.execute(sql, {"owner":owner}).fetchall()

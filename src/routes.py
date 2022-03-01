@@ -5,11 +5,18 @@ from stocks_service import stocks_service
 from services.user_service import user_service
 from services.market_service import market_service
 
-NORDEA = stocks_service.read_file("nda.csv")
-NOKIA = stocks_service.read_file("nokia.csv")
+ELISA = stocks_service.read_file("elisa.csv")
 FINNAIR = stocks_service.read_file("fia1s.csv")
+FORTUM = stocks_service.read_file("fortum.csv")
 KONE = stocks_service.read_file("knebv.csv")
+METSO = stocks_service.read_file("metso.csv")
 NESTE = stocks_service.read_file("neste.csv")
+NOKIA = stocks_service.read_file("nokia.csv")
+NORDEA = stocks_service.read_file("nda.csv")
+ORNB = stocks_service.read_file("orionb.csv")
+SAMPO = stocks_service.read_file("sampo.csv")
+UPM = stocks_service.read_file("upm.csv")
+WARTSILA = stocks_service.read_file("wartsila.csv")
 
 def redirect_to_register():
     return redirect(url_for("render_register"))
@@ -120,6 +127,21 @@ def handle_game_over():
     portfolio = market_service.find_portfolio_name(owner)
     portfolio_id = market_service.find_portfolio_id(owner)
 
+# count value of remaining stocks
+
+    value = 0
+    remaining = market_service.find_remaining_stocks(portfolio_id)
+    last_prices = stocks_service.last_day()
+
+    for rem in remaining:
+        for price in last_prices:
+            if rem[0]==price:
+                print(price)
+                print(last_prices[price])
+                value += rem[1]*last_prices[price]
+                print(rem[1])
+    print(value)
+
     transactions = market_service.find_transactions(portfolio_id)
 
     bought = 0
@@ -141,7 +163,7 @@ def handle_game_over():
     else:
         result = taxable*-1
     
-    return render_template("game_over.html", portfolio=portfolio, transactions=transactions, bought=bought, sold=sold, banking=banking, taxes=taxes, result=result)
+    return render_template("game_over.html", portfolio=portfolio, transactions=transactions, bought=bought, sold=sold, banking=banking, taxes=taxes, result=result, value=value)
             
 
 @app.route("/give_date", methods=["GET", "POST"])
@@ -177,11 +199,18 @@ def handle_choose_stock():
 
         results = []
 
-        results.append(stocks_service.give_values("Nordea", date, NORDEA))
-        results.append(stocks_service.give_values("Nokia", date, NOKIA))
+        results.append(stocks_service.give_values("Elisa", date, ELISA))
         results.append(stocks_service.give_values("Finnair", date, FINNAIR))
+        results.append(stocks_service.give_values("Fortum", date, FORTUM))
         results.append(stocks_service.give_values("Kone", date, KONE))
+        results.append(stocks_service.give_values("Metso", date, METSO))
         results.append(stocks_service.give_values("Neste", date, NESTE))
+        results.append(stocks_service.give_values("Nokia", date, NOKIA))
+        results.append(stocks_service.give_values("Nordea", date, NORDEA))
+        results.append(stocks_service.give_values("Orion B", date, ORNB))
+        results.append(stocks_service.give_values("Sampo", date, SAMPO))
+        results.append(stocks_service.give_values("UPM", date, UPM))
+        results.append(stocks_service.give_values("Wärtsilä", date, WARTSILA))
 
         return render_template("choose_stock.html", items=results)
 
