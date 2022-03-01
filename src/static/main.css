@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    margin: auto;    
+    margin: 0 0 0 3em;    
     background-color: lightgoldenrodyellow;
     max-width: 45em
     padding: 0 30px 10px 10px;
@@ -12,6 +12,9 @@ body {
 
 form {
     background: lightblue;
+    border-radius: 25px;
+    padding: 2em 1em 3em;
+    width: 15em  
 }
 
 h1 {
