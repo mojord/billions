@@ -11,7 +11,8 @@
       <h1>Create a portfolio</h1>
           <br>
           <form action="" method="post">
-            <input type="text" placeholder="New portfolio name" name="portfolio_name" value="{{request.form.portfolio_name}}">            
+            <input type="text" placeholder="New portfolio name" name="portfolio_name" value="{{request.form.portfolio_name}}">
+            <p>     
             <input class="btn btn-default" type="submit" value="Create new portfolio">
           </form>
           {% if error %}

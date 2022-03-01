@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block body %}
 <html>
     <head>
         <title>Game over</title>
@@ -16,7 +18,9 @@
           {% endif %}
 
           <u1>
-          {{ portfolio }}
+          <p>
+          <strong>{{ portfolio }}</strong>
+          <p>
           <br>
           <br>
           {% for transaction in transactions %}
@@ -25,6 +29,7 @@
           </u1>
           <br>
           <br>
+          <p> Current value of {{ portfolio }} is {{ value }} euros</p>
           <p>Bought stocks for {{ bought }}, sold stocks for {{ sold }}, paid banking fees for {{ banking }} and taxes for {{ taxes }}.</p>
           <p>Net result was {{ result }}</p>
           <br>
@@ -33,3 +38,4 @@
         </div>
     </body>
 </html>
+{% endblock %}

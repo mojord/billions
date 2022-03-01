@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block body %}
 <html>
     <head>
         <title>Portfolio</title>
@@ -17,7 +19,8 @@
           {% endif %}
 
           <u1>
-          {{ portfolio }}
+          <p>
+          <strong>{{ portfolio }}</strong>
           <br>
           <br>
           {% for stock in stocks %}
@@ -26,7 +29,7 @@
           </u1>
           <br>
           <br>
-          <p>Today's date is {{ today }}</p>
+          <p>Today's date is <b>{{ today }}</b></p>
           <br>
           <li><a href="/give_date">Go to stockmarket</a></li>
           <br>
@@ -38,3 +41,4 @@
         </div>
     </body>
 </html>
+{% endblock %}

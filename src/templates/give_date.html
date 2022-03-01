@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block body %}
 <html>
   <head>
    <title>Give date</title>
@@ -11,6 +13,7 @@
       <form action="/choose_stock" method="post">
         <input type="text" placeholder="dd.mm.yyyy" name="date" value="{{
           request.form.date }}">
+        <p>
         <input class="btn btn-default" type="submit" value="Enter date">
       </form>
       {% if error %}
@@ -20,3 +23,4 @@
     </div>
   </body>
 </html>
+{% endblock %}
