@@ -30,6 +30,7 @@ CREATE TABLE transactions (
     sell_price FLOAT,
     banking FLOAT,
     dividend FLOAT,
+    balance FLOAT,
     portfolio_id INTEGER REFERENCES portfolios
 );
 
