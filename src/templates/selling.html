@@ -10,21 +10,23 @@
       <h1>Selling</h1>
       <p>{{ company }}</p>
       <p>for {{ price }}</p>
+      <p> {{ message }}</p>
       <br>
       <form action="" method="post">
         <input type="text" placeholder="Give number of batches to sell" name="number" value="{{request.form.number}}">
         <input class="btn btn-default" type="submit" name="submit_button" value="Submit">
       </form>
       {% if error %}
-        <p class="error"><strong>Error:</strong>strong {{ error }}
+        <p class="error"><strong>Error:</strong>{{ error }}
       {% endif %}
       <br>
       <u1>
-        <br>
-        <br>
+        <br>        
         {% for stock in sellable_stocks %}
         <li> {{ stock.company }}   DATE BOUGHT: {{ stock.buy_date }} AMOUNT: {{stock.amount}} BUY PRICE: {{stock.buy_price}} </li>
         {% endfor %}
+        <br>
+        <p>
         </u1>
         <form action="" method="post">
           <input class="btn btn-default" type="submit" name="submit_button" value="Click to finish sale">
