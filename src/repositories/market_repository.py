@@ -69,10 +69,10 @@ class MarketRepository:
         db.session.execute(sql)
         db.session.commit()
     
-    def add_transaction(self, date, company, buy_price, sell_price, banking, dividend, portfolio_id):
-        sql = """INSERT INTO transactions (date, company, buy_price, sell_price, banking, dividend, portfolio_id)
-            VALUES (:date, :company, :buy_price, :sell_price, :banking, :dividend, :portfolio_id)"""
-        db.session.execute(sql, {"date":date, "company":company, "buy_price":buy_price, "sell_price":sell_price, "banking":banking, "dividend":dividend, "portfolio_id":portfolio_id})
+    def add_transaction(self, date, company, buy_price, sell_price, banking, dividend, balance, portfolio_id):
+        sql = """INSERT INTO transactions (date, company, buy_price, sell_price, banking, dividend, balance, portfolio_id)
+            VALUES (:date, :company, :buy_price, :sell_price, :banking, :dividend, :balance, :portfolio_id)"""
+        db.session.execute(sql, {"date":date, "company":company, "buy_price":buy_price, "sell_price":sell_price, "banking":banking, "dividend":dividend, "balance":balance, "portfolio_id":portfolio_id})
         db.session.commit()
     
     def get_latest_transaction(self, portfolio_id):

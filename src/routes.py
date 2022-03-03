@@ -72,7 +72,6 @@ def render_game_over():
 
 @app.route("/register", methods=["POST"])
 def handle_register():
-    print("kutsutaan handle_register")
     username = request.form.get("username")
     password = request.form.get("password")
     password_confirmation = request.form.get("password_confirmation")
@@ -127,35 +126,69 @@ def handle_game_over():
     portfolio = market_service.find_portfolio_name(owner)
     portfolio_id = market_service.find_portfolio_id(owner)
 
-# count value of remaining stocks
+# count value of remaining stocks, buy _price of remaining stocks, balance
+# rem 0 company, rem 1 amount, rem 2 buy_price
 
-    value = 0
+    endvalue = 0
+    invested = 0
+    
+
     remaining = market_service.find_remaining_stocks(portfolio_id)
     last_prices = stocks_service.last_day()
-
+    
     for rem in remaining:
         for price in last_prices:
             if rem[0]==price:
-                print(price)
-                print(last_prices[price])
-                value += rem[1]*last_prices[price]
+                print(price) #company
+                print(last_prices[price]) #price 30.12.
+                endvalue += rem[1]*last_prices[price]
+                invested += rem[1]*rem[2]
                 print(rem[1])
-    print(value)
+                print(rem[0])
+                print(rem[2])
+    print(endvalue)
+    print(invested)
+    portfolio_balance = endvalue-invested
+
+# count dividends for remaining stocks, spaghetti, refactor
+    divs_from_remaining = 0
+    div20 = stocks_service.dividends_2020()
+    div21 = stocks_service.dividends_2021()
+
+    for div in div20:
+        for rem in remaining:
+            if div==rem[1]:
+                if rem[3] < div20[div][0]:
+                    divs_from_remaining += div20[div][1] * rem[2]
+    for div in div21:
+        if div==rem[1]:
+            if rem[3] < div21[div][0]:
+                divs_from_remaining += div21[div][1] * rem[2]
+    
+    print(divs_from_remaining)
+
+# count rest********************************************************************************
 
     transactions = market_service.find_transactions(portfolio_id)
 
-    bought = 0
-    sold = 0
+    sales_balance = 0
+    dividends = 0
     banking = 0
     result = 0
     taxes = 0
+    bought = 0
+    sold = 0
 
     for transaction in transactions:
+        sales_balance += transaction[7]
+        dividends += transaction[6]
+        banking += transaction[5]
         bought += transaction[3]
         sold += transaction[4]
-        banking += transaction[5]
     
-    taxable = sold - bought - banking
+    taxable = sales_balance + dividends - banking
+
+#    sold = sold.toFixed(2)
 
     if taxable > 0:
         result = taxable*0.7
@@ -163,7 +196,20 @@ def handle_game_over():
     else:
         result = taxable*-1
     
-    return render_template("game_over.html", portfolio=portfolio, transactions=transactions, bought=bought, sold=sold, banking=banking, taxes=taxes, result=result, value=value)
+    final = portfolio_balance+result
+
+    endvalue = "{:.2f}".format(endvalue)
+    portfolio_balance = "{:.2f}".format(portfolio_balance)
+    sales_balance = "{:.2f}".format(sales_balance)
+    dividends = "{:.2f}".format(dividends)
+    bought = "{:.2f}".format(bought)
+    sold = "{:.2f}".format(sold)
+#    sales_balance = "{:.2f}".format(sales_balance)
+    taxes = "{:.2f}".format(taxes)
+    result = "{:.2f}".format(result)
+    final = "{:.2f}".format(final)
+
+    return render_template("game_over.html", portfolio=portfolio, endvalue=endvalue, transactions=transactions, portfolio_balance=portfolio_balance, sales_balance=sales_balance, dividends=dividends, banking=banking, bought=bought, sold=sold, taxes=taxes, result=result, final=final)
             
 
 @app.route("/give_date", methods=["GET", "POST"])
@@ -229,16 +275,13 @@ def render_buying(company, date, price):
 
 @app.route("/buying/<company>/<date>/<price>", methods=["GET","POST"])
 def handle_buying(company, date, price):
-    
-    print("handling buy")
-
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
 
     if request.form["submit_button"] == "Buy":
         amount = request.form.get("amount")
         market_service.buy(amount)
-        market_service.add_transaction(date, company, float(price)*int(amount), 0, 7, 0, portfolio_id)
+        market_service.add_transaction(date, company, float(price)*int(amount), 0, 7, 0, 0, portfolio_id)
         
         return redirect_to_portfolio()
 
@@ -249,15 +292,17 @@ def handle_buying(company, date, price):
     
 
 @app.route("/selling/<company>/<date>/<price>", methods=["GET"])
-def render_selling(company, date, price):
-
-    print("sale page")
-    
+def render_selling(company, date, price):    
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
     sellable_stocks = market_service.get_sellable_stocks(company, portfolio_id)
+    max = len(sellable_stocks)
+    if max == 0:
+        message = "You have no stocks from this company. You can return to your portfolio by clicking the Finish sale button."
+    else:
+        message = f"You have {max} batches to sell. If you give a larger amount, all will be sold."
              
-    return render_template("selling.html", company=company, date=date, price=price, sellable_stocks=sellable_stocks)
+    return render_template("selling.html", company=company, date=date, price=price, sellable_stocks=sellable_stocks, max=max, message=message)
 
 @app.route("/selling/<company>/<date>/<price>", methods=["GET","POST"])
 def handle_selling(company, date, price):
@@ -267,23 +312,40 @@ def handle_selling(company, date, price):
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
     sellable_stocks = market_service.get_sellable_stocks(company, portfolio_id)
-
+    batches = len(sellable_stocks)
+    div20 = stocks_service.dividends_2020()
+    div21 = stocks_service.dividends_2021()
+    divs = 0
+    tsold_date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+    sold_date = datetime.date(tsold_date)
 
     if request.form["submit_button"] == "Submit":
-        print("submitting number")
         number = request.form.get("number")
-        batches = int(number)
-        print("number")
-        print(number)
+        if len(number)==0 or "-" in number:
+            return redirect_to_give_date()
+        
+        to_be_sold = int(number)
+        if to_be_sold > batches:
+            to_be_sold = batches
+
         i=0
-        while i<batches:
+        while i<to_be_sold:
             market_service.sell(sellable_stocks[i][2], date, price, sellable_stocks[i][0])
-            print(sellable_stocks[i][2], date, price, sellable_stocks[i][0])
-            print(type(price))
-            print(type(sellable_stocks[i][2]))
-            market_service.add_transaction(date, company, 0, float(price)*(sellable_stocks[i][2]), 7, 0, sellable_stocks[i][7])
+            sales_price = float(price)*(sellable_stocks[i][2])
+            acq_price = sellable_stocks[i][5]*sellable_stocks[i][2]
+            win_loss = sales_price-acq_price
+            for div in div20:
+                if div==sellable_stocks[i][1]:
+                    if sellable_stocks[i][3] < div20[div][0] < sold_date:
+                        divs += div20[div][1] * sellable_stocks[i][2]
+            for div in div21:
+                if div==sellable_stocks[i][1]:
+                    if sellable_stocks[i][3] < div21[div][0] < sold_date:
+                        divs += div21[div][1] * sellable_stocks[i][2]
+
+            market_service.add_transaction(date, company, 0, sales_price, 7, divs, win_loss, sellable_stocks[i][7])
             i += 1
-        return render_template("selling.html", company=company, date=date, price=price)
+        return render_template("selling.html", company=company, date=date, price=price, batches=batches)
 
     else:
         if request.form["submit_button"] == "Click to finish sale":
@@ -303,5 +365,5 @@ def create_portfolio():
     else:
         market_service.create_portfolio(owner, date, name)
         portfolio_id = market_service.find_portfolio_id(owner)
-        market_service.add_transaction(date, "", 0, 0, 0, 0, portfolio_id)
+        market_service.add_transaction(date, "", 0, 0, 0, 0, 0, portfolio_id)
         return redirect_to_portfolio()

@@ -51,8 +51,8 @@ class MarketService:
     def delete_sold_stocks(self):
         self._market_repository.delete_sold_stocks()
     
-    def add_transaction(self, date, company, buy_price, sell_price, banking, dividend, portfolio_id):
-        self._market_repository.add_transaction(date, company, buy_price, sell_price, banking, dividend, portfolio_id)
+    def add_transaction(self, date, company, buy_price, sell_price, banking, dividend, balance, portfolio_id):
+        self._market_repository.add_transaction(date, company, buy_price, sell_price, banking, dividend, balance, portfolio_id)
     
     def get_latest_transaction(self, portfolio_id):
         date = self._market_repository.get_latest_transaction(portfolio_id)
