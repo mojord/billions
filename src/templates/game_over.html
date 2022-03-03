@@ -8,30 +8,28 @@
         <div class="container">
           <h1>My transactions</h1>
           <br>
-          <br>
-          <form action="" method="post">
-            
+          <form action="" method="post">            
             <input class="btn btn-default" type="submit" value="Show my transactions">
           </form>
           {% if error %}
           <p class="error"><strong>Error:</strong> {{ error }}
           {% endif %}
-
           <u1>
           <p>
           <strong>{{ portfolio }}</strong>
           <p>
-          <br>
-          <br>
           {% for transaction in transactions %}
           <li> {{ transaction.company }}     BOUGHT:  {{ transaction.buy_price }}   BANKING FEE: {{ transaction.banking }}   SOLD: {{ transaction.sell_price }} </li>
           {% endfor %}
           </u1>
           <br>
           <br>
-          <p> Current value of {{ portfolio }} is {{ value }} euros</p>
-          <p>Bought stocks for {{ bought }}, sold stocks for {{ sold }}, paid banking fees for {{ banking }} and taxes for {{ taxes }}.</p>
+          <p>Current value of {{ portfolio }} is {{ endvalue }} euros. Balance between investment and value is {{ portfolio_balance }}. </p>
+          <p>Bought stocks for {{ bought }}, sold stocks for {{ sold }}.</p>
+          <p>Sales balance is {{ sales_balance }} and acquired dividends {{ dividends }}.</p>
+          <p>Paid banking fees for {{ banking }} and taxes for {{ taxes }}.</p>
           <p>Net result was {{ result }}</p>
+          <p>Endgame - portfolio balance and net result: {{ final }}</p>
           <br>
           <li><a href="/create_portfolio">Create new portfolio</a></li>
           
