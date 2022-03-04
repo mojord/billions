@@ -122,6 +122,7 @@ def handle_portfolio():
     if portfolio is not None:
         portfolio_id = market_service.find_portfolio_id(owner)
         today = market_service.get_latest_transaction(portfolio_id)
+        market_service.delete_sold_stocks()
         stocks = market_service.find_stocks(portfolio_id)
     
     return render_template("portfolio.html", portfolio=portfolio, today=today, stocks=stocks)
@@ -205,8 +206,6 @@ def handle_game_over():
     investment_stat = int(expenses)
 
     percent = (((expenses+portfolio_balance+result)/expenses)-1)*100
-
-    
 
 
 # format to show results
