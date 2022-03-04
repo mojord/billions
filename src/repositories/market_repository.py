@@ -98,12 +98,12 @@ class MarketRepository:
         db.session.commit()
     
     def delete_transactions_by_portfolio(self, portfolio_id):
-        sql = "DELETE FROM stocks WHERE portfolio_id=:portfolio_id"
+        sql = "DELETE FROM transactions WHERE portfolio_id=:portfolio_id"
         db.session.execute(sql, {"portfolio_id":portfolio_id})
         db.session.commit()
     
-    def delete_portfolio_by_owner(self, owner ):
-        sql = "DELETE FROM stocks WHERE owner=:owner"
+    def delete_portfolio_by_owner(self, owner):
+        sql = "DELETE FROM portfolios WHERE owner=:owner"
         db.session.execute(sql, {"owner":owner})
         db.session.commit()
 

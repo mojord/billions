@@ -224,6 +224,12 @@ def handle_game_over():
     result = float(percent)
     market_service.create_stat(portfolio, owner, investment_stat, result)
 
+#delete portfolio
+    market_service.delete_stocks_by_portfolio(portfolio_id)
+    market_service.delete_transactions_by_portfolio(portfolio_id)
+    market_service.delete_portfolio_by_owner(owner)
+
+
     return render_template("game_over.html", portfolio=portfolio, endvalue=endvalue, transactions=transactions, portfolio_balance=portfolio_balance, sales_balance=sales_balance, dividends=dividends, banking=banking, bought=bought, sold=sold, taxes=taxes, result=result, final=final, percent=percent)
             
 
