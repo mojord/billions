@@ -32,3 +32,9 @@ img {
 button button-default {
     color: brown;
 }
+
+aside {
+    float: right;
+    margin: 0 15em 0 5em;
+    width: 30%
+}
