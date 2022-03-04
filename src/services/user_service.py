@@ -8,5 +8,8 @@ class UserService:
     def create_user(self, username, password):
         hash_value = generate_password_hash(password)
         self._user_repository.create(username, hash_value)
+    
+    def check_username(self, username):
+        return self._user_repository.check_username(username)
 
 user_service = UserService()

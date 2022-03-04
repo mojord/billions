@@ -78,10 +78,9 @@ def handle_register():
     password = request.form.get("password")
     password_confirmation = request.form.get("password_confirmation")
 
-#    check_if_user = user_repository.find_username(username)
-
-#    if check_if_user is not None:
-#        return render_template("register.html", error = "Username already taken")
+    check_if_user = user_service.check_username(username)
+    if check_if_user is not None:
+        return render_template("register.html", error = "Username already taken")
 
     if password != password_confirmation:
         return render_template("register.html", error = "Passwords do not match")
@@ -105,6 +104,11 @@ def login():
     session["username"] = username
     
     return redirect_to_portfolio()
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
 
 @app.route("/portfolio", methods=["GET", "POST"])
 def handle_portfolio():

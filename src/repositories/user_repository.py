@@ -10,9 +10,10 @@ class UserRepository:
         db.session.execute(sql, {"username":username, "password":password_hash})
         db.session.commit()
 
-    def find_by_username(self, username):
+    def check_username(self, username):
         sql = "SELECT username, password FROM users WHERE username=:username"
         result = db.session.execute(sql, {"username":username})
         return result.fetchone()
+    
 
 user_repository = UserRepository()
