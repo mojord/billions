@@ -103,6 +103,9 @@ def login():
     username = request.form.get("username")
     password = request.form.get("password")
 
+    if not (username and password):
+        return render_template("login.html", error = "Fill all fields")
+
     if not user_service.login(username, password):
         return render_template("login.html", error = "Wrong username or password.")    
     
@@ -145,40 +148,42 @@ def handle_game_over():
 
     endvalue = 0
     invested = 0
+    portfolio_balance = 0
     
     remaining = market_service.find_remaining_stocks(portfolio_id)
     last_prices = stocks_service.last_day()
     
-    for rem in remaining:
-        for price in last_prices:
-            if rem[0]==price:
-                print(price) #company
-                print(last_prices[price]) #price 30.12.
-                endvalue += rem[1]*last_prices[price]
-                invested += rem[1]*rem[2]
-                print(rem[1])
-                print(rem[0])
-                print(rem[2])
-    print(endvalue)
-    print(invested)
-    portfolio_balance = endvalue-invested
-
-# count dividends for remaining stocks, spaghetti, refactor
-    divs_from_remaining = 0
-    div20 = stocks_service.dividends_2020()
-    div21 = stocks_service.dividends_2021()
-
-    for div in div20:
+    if len(remaining) > 0:
         for rem in remaining:
+            for price in last_prices:
+                if rem[0]==price:
+                    print(price) #company
+                    print(last_prices[price]) #price 30.12.
+                    endvalue += rem[1]*last_prices[price]
+                    invested += rem[1]*rem[2]
+                    print(rem[1])
+                    print(rem[0])
+                    print(rem[2])
+        print(endvalue)
+        print(invested)
+        portfolio_balance = endvalue-invested
+
+    # count dividends for remaining stocks, spaghetti, refactor
+        divs_from_remaining = 0
+        div20 = stocks_service.dividends_2020()
+        div21 = stocks_service.dividends_2021()
+
+        for div in div20:
+            for rem in remaining:
+                if div==rem[1]:
+                    if rem[3] < div20[div][0]:
+                        divs_from_remaining += div20[div][1] * rem[2]
+        for div in div21:
             if div==rem[1]:
-                if rem[3] < div20[div][0]:
-                    divs_from_remaining += div20[div][1] * rem[2]
-    for div in div21:
-        if div==rem[1]:
-            if rem[3] < div21[div][0]:
-                divs_from_remaining += div21[div][1] * rem[2]
-    
-    print(divs_from_remaining)
+                if rem[3] < div21[div][0]:
+                    divs_from_remaining += div21[div][1] * rem[2]
+        
+#        print(divs_from_remaining)
 
 # count rest of the stats
 
@@ -191,6 +196,7 @@ def handle_game_over():
     taxes = 0
     bought = 0
     sold = 0
+    percent = 0
 
     for transaction in transactions:
         sales_balance += transaction[7]
@@ -205,13 +211,14 @@ def handle_game_over():
         result = taxable*0.7
         taxes = taxable - result
     else:
-        result = taxable*-1
+        result = taxable
     
     final = portfolio_balance+result
     expenses = bought + banking
     investment_stat = int(expenses)
 
-    percent = (((expenses+portfolio_balance+result)/expenses)-1)*100
+    if expenses != 0:
+        percent = (((expenses+portfolio_balance+result)/expenses)-1)*100
 
 
 # format to show results
@@ -227,8 +234,8 @@ def handle_game_over():
     percent = "{:.2f}".format(percent)
 
 #create stats
-    result = float(percent)
-    market_service.create_stat(portfolio, owner, investment_stat, result)
+    stat_result = float(percent)
+    market_service.create_stat(portfolio, owner, investment_stat, stat_result)
 
 #delete portfolio
     market_service.delete_stocks_by_portfolio(portfolio_id)
