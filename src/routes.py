@@ -402,6 +402,7 @@ def handle_selling(company, date, price):
 @app.route("/create_portfolio", methods=["GET", "POST"])
 def create_portfolio():
     owner = session["username"]
+    session["csrf_token"] = secrets.token_hex(16)
     name = request.form.get("portfolio_name")
     date = "01.01.2020"
     if market_service.check_portfolio(owner):
