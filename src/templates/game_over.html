@@ -9,7 +9,8 @@
           <h1>My transactions</h1>
           <br>
           <form action="" method="post">            
-            <input class="btn btn-default" type="submit" value="Show my transactions">
+            <input class="btn btn-default" type="submit" value="End game and show my transactions">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
           </form>
           {% if error %}
           <p class="error"><strong>Error:</strong> {{ error }}
@@ -24,11 +25,11 @@
           </u1>
           <br>
           <br>
-          <p>Current value of {{ portfolio }} is {{ endvalue }} euros. Balance between investment and value is {{ portfolio_balance }}. </p>
-          <p>Bought stocks for {{ bought }}, sold stocks for {{ sold }}.</p>
-          <p>Sales balance is {{ sales_balance }} and acquired dividends {{ dividends }}.</p>
-          <p>Paid banking fees for {{ banking }} and taxes for {{ taxes }}.</p>
-          <p>Net result was {{ result }}</p>
+          <p>Current value {{ portfolio }}  {{ endvalue }} euros. Balance between investment and value  {{ portfolio_balance }}. </p>
+          <p>Bought {{ bought }}, sold stocks {{ sold }}.</p>
+          <p>Sales balance  {{ sales_balance }} acquired dividends {{ dividends }}.</p>
+          <p>Banking fees for {{ banking }} taxes {{ taxes }}.</p>
+          <p>Net result {{ result }}</p>
           <p>Endgame - portfolio balance and net result: {{ final }}</p>
           <p>Difference from just keeping your money on a savings account for two years {{ percent }} %</p>
           <br>

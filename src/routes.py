@@ -1,6 +1,7 @@
 from app import app
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime, timedelta
+import secrets
 from stocks_service import stocks_service
 from services.user_service import user_service
 from services.market_service import market_service
@@ -101,7 +102,10 @@ def handle_register():
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
-    session["username"] = username
+
+    if not user_service.login(username, password):
+        return render_template("login.html", error = "Wrong username or password.")    
+    
     
     return redirect_to_portfolio()
 
@@ -131,6 +135,8 @@ def handle_portfolio():
 @app.route("/game_over", methods=["GET", "POST"])
 def handle_game_over():
     owner = session["username"]
+#csrf check
+    session["csrf_token"] = secrets.token_hex(16)
     portfolio = market_service.find_portfolio_name(owner)
     portfolio_id = market_service.find_portfolio_id(owner)
 

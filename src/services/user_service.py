@@ -11,5 +11,14 @@ class UserService:
     
     def check_username(self, username):
         return self._user_repository.check_username(username)
+    
+    def login(self, username, password):
+        result = self.check_username(username)
+        user = result[0]
+        if not user:
+            return False
+        if not check_password_hash(result[1], password):
+            return False
+        return True
 
 user_service = UserService()
