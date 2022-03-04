@@ -106,7 +106,7 @@ def login():
     if not user_service.login(username, password):
         return render_template("login.html", error = "Wrong username or password.")    
     
-    
+    session["username"] = username
     return redirect_to_portfolio()
 
 @app.route("/logout")
