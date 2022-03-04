@@ -37,11 +37,7 @@ CREATE TABLE transactions (
 CREATE TABLE stats (
     id SERIAL PRIMARY KEY,
     portfolio_name TEXT,
-    purchases FLOAT,
-    banking FLOAT,
-    taxes FLOAT,
-    sales FLOAT,
-    dividends FLOAT,
-    net FLOAT,
-    user_id INTEGER REFERENCES users
+    user_name TEXT,
+    investment INTEGER,
+    result FLOAT
 );

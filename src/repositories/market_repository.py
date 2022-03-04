@@ -16,6 +16,17 @@ class MarketRepository:
         db.session.execute(sql, {"company":company, "amount":amount, "buy_date":buy_date, "sell_date":sell_date, "buy_price":buy_price, "sell_price":sell_price, "portfolio_id":portfolio_id})
         db.session.commit()
     
+    def create_stat(self, portfolio_name, user_name, investment, result):
+        sql = """INSERT INTO stats (portfolio_name, user_name, investment, result)
+            VALUES (:portfolio_name, :user_name, :investment, :result)"""
+        db.session.execute(sql, {"portfolio_name":portfolio_name, "user_name":user_name, "investment":investment, "result":result})
+        db.session.commit()
+    
+    def get_stats(self):
+        sql = "SELECT portfolio_name, user_name, investment, result FROM stats ORDER BY result DESC"
+        result = db.session.execute(sql)
+        return result.fetchall()
+    
     def find_stocks(self, portfolio_id):
         sql = "SELECT * FROM stocks WHERE portfolio_id=:portfolio_id AND amount IS NOT NULL ORDER BY buy_date"
         result = db.session.execute(sql, {"portfolio_id":portfolio_id})
@@ -43,12 +54,7 @@ class MarketRepository:
         sql = "SELECT id FROM portfolios WHERE owner=:owner"
         result = db.session.execute(sql, {"owner":owner})
         return result.fetchone()[0]
-    
-    def delete_portfolio(self, portfolio_id):
-        sql = "DELETE FROM portfolios WHERE portfolio_id =:portfolio_id"
-        db.session.execute(sql, {"portfolio_id":portfolio_id})
-        db.session.commit()
-    
+
     def get_sellable_stocks(self, company, portfolio_id):
         sql = "SELECT * FROM stocks WHERE company=:company AND portfolio_id=:portfolio_id AND amount >= 0 ORDER BY buy_date"
         result = db.session.execute(sql, {"company":company, "portfolio_id":portfolio_id})
@@ -65,7 +71,7 @@ class MarketRepository:
         db.session.commit()
     
     def delete_sold_stocks(self):
-        sql = "DELETE FROM stocks WHERE amount < 0"
+        sql = "DELETE FROM stocks WHERE amount <= 0"
         db.session.execute(sql)
         db.session.commit()
     
@@ -85,5 +91,20 @@ class MarketRepository:
         sql = "SELECT * FROM transactions WHERE portfolio_id=:portfolio_id"
         result = db.session.execute(sql, {"portfolio_id":portfolio_id})
         return result.fetchall()
+    
+    def delete_stocks_by_portfolio(self, portfolio_id):
+        sql = "DELETE FROM stocks WHERE portfolio_id=:portfolio_id"
+        db.session.execute(sql, {"portfolio_id":portfolio_id})
+        db.session.commit()
+    
+    def delete_transactions_by_portfolio(self, portfolio_id):
+        sql = "DELETE FROM stocks WHERE portfolio_id=:portfolio_id"
+        db.session.execute(sql, {"portfolio_id":portfolio_id})
+        db.session.commit()
+    
+    def delete_portfolio_by_owner(self, owner ):
+        sql = "DELETE FROM stocks WHERE owner=:owner"
+        db.session.execute(sql, {"owner":owner})
+        db.session.commit()
 
 market_repository = MarketRepository()

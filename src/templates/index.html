@@ -10,7 +10,33 @@
   <body>
     <div class="container">
       <h1>Welcome to Nasdaq Helsinki Finnish Favorites!</h1>
-
+      <aside>
+        <form action="" method="post">            
+          <input class="btn btn-default" type="submit" value="Show GALLERY">
+        </form>
+        <u1>
+          <p>
+          <p>
+          {% for stat in stats %}
+          <li> {{ stat.portfolio_name }} by  {{ stat.user_name }}, invested {{ stat.investment }} euros,  performance {{ stat.result }} % </li>
+          {% endfor %}
+          </u1>
+      </aside>
+        <p>In HELSINKI BILLIONS, you can buy and sell stocks from the ten companies most popular
+        <br>among Finnish households who have stockmarket investments. Create your portfolio
+        <br>and start buying and selling.</p>        
+        <p>Available are the years 2020-2021, a short, but interesting time.
+        <br>When you're done or at the end of 2021, the game is over and you can
+        <br>see how your portfolio did.</p>
+        <p>Note there's a constraint that you can only sell "batches", i.e. sets of stocks
+        <br>from single buys. Sorry for the inconvenience that some dates are missing,
+        <br>this is due to using real Nasdaq data.</p>
+        <p>When you start finding the exercise tedious, you have entered the zone.
+        <br>Successful investing involves some work. But you can actually lose thousands
+        <br>with the click of a button.</p>
+        <p>Hope you enjoy! Thanks for playing!</p>
+        
+        
         <ul>
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>

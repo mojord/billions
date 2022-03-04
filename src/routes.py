@@ -42,8 +42,7 @@ def redirect_to_create_portfolio():
 def redirect_to_game_over():
     return redirect(url_for("game_over"))
 
-
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def render_home():
     return render_template("index.html")
 
@@ -67,8 +66,11 @@ def render_create_portfolio():
 def render_game_over():
     return render_template("game_over.html")
 
-
-
+@app.route("/", methods=["GET", "POST"])
+def handle_home():
+    stats= market_service.get_stats()
+    
+    return render_template("index.html", stats=stats)
 
 @app.route("/register", methods=["POST"])
 def handle_register():
@@ -120,6 +122,7 @@ def handle_portfolio():
     
     return render_template("portfolio.html", portfolio=portfolio, today=today, stocks=stocks)
 
+# end page, shows complete stats
 @app.route("/game_over", methods=["GET", "POST"])
 def handle_game_over():
     owner = session["username"]
@@ -132,7 +135,6 @@ def handle_game_over():
     endvalue = 0
     invested = 0
     
-
     remaining = market_service.find_remaining_stocks(portfolio_id)
     last_prices = stocks_service.last_day()
     
@@ -167,7 +169,7 @@ def handle_game_over():
     
     print(divs_from_remaining)
 
-# count rest********************************************************************************
+# count rest of the stats
 
     transactions = market_service.find_transactions(portfolio_id)
 
@@ -188,8 +190,6 @@ def handle_game_over():
     
     taxable = sales_balance + dividends - banking
 
-#    sold = sold.toFixed(2)
-
     if taxable > 0:
         result = taxable*0.7
         taxes = taxable - result
@@ -197,29 +197,47 @@ def handle_game_over():
         result = taxable*-1
     
     final = portfolio_balance+result
+    expenses = bought + banking
+    investment_stat = int(expenses)
 
+    percent = (((expenses+portfolio_balance+result)/expenses)-1)*100
+
+    
+
+
+# format to show results
     endvalue = "{:.2f}".format(endvalue)
     portfolio_balance = "{:.2f}".format(portfolio_balance)
     sales_balance = "{:.2f}".format(sales_balance)
     dividends = "{:.2f}".format(dividends)
     bought = "{:.2f}".format(bought)
     sold = "{:.2f}".format(sold)
-#    sales_balance = "{:.2f}".format(sales_balance)
     taxes = "{:.2f}".format(taxes)
     result = "{:.2f}".format(result)
     final = "{:.2f}".format(final)
+    percent = "{:.2f}".format(percent)
 
-    return render_template("game_over.html", portfolio=portfolio, endvalue=endvalue, transactions=transactions, portfolio_balance=portfolio_balance, sales_balance=sales_balance, dividends=dividends, banking=banking, bought=bought, sold=sold, taxes=taxes, result=result, final=final)
+#create stats
+    result = float(percent)
+    market_service.create_stat(portfolio, owner, investment_stat, result)
+
+    return render_template("game_over.html", portfolio=portfolio, endvalue=endvalue, transactions=transactions, portfolio_balance=portfolio_balance, sales_balance=sales_balance, dividends=dividends, banking=banking, bought=bought, sold=sold, taxes=taxes, result=result, final=final, percent=percent)
             
 
 @app.route("/give_date", methods=["GET", "POST"])
 def render_give_date():
+    owner = session["username"]
+    if not market_service.check_portfolio(owner):
+        return render_template("portfolio.html", error = "You don't have a portfolio. Please create one.")
     return render_template("give_date.html")
 
 @app.route("/choose_stock", methods=["GET","POST"])
 def handle_choose_stock():
 
     date_given = request.form["date"]
+    if not date_given:
+        return render_template("give_date.html", error = "Please give a date.")
+        
     date = datetime.strptime(date_given, "%d.%m.%Y")
     given_date = datetime.date(date)
     
@@ -280,10 +298,19 @@ def handle_buying(company, date, price):
 
     if request.form["submit_button"] == "Buy":
         amount = request.form.get("amount")
-        market_service.buy(amount)
-        market_service.add_transaction(date, company, float(price)*int(amount), 0, 7, 0, 0, portfolio_id)
-        
-        return redirect_to_portfolio()
+        if not amount:
+            market_service.delete_sold_stocks()
+            return render_template("give_date.html", error = "Amount was missing.")
+
+        intamount = int(amount)
+        if intamount > 0:
+            market_service.buy(amount)
+            market_service.add_transaction(date, company, float(price)*intamount, 0, 7, 0, 0, portfolio_id)
+            
+            return redirect_to_portfolio()
+        else:
+            market_service.delete_sold_stocks()
+            return render_template("give_date.html", error = "Amount should be at least 1.")
 
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
@@ -321,10 +348,12 @@ def handle_selling(company, date, price):
 
     if request.form["submit_button"] == "Submit":
         number = request.form.get("number")
-        if len(number)==0 or "-" in number:
-            return redirect_to_give_date()
-        
+        if not number:
+            return render_template("give_date.html", error = "Number of batches was missing.")
+       
         to_be_sold = int(number)
+        if to_be_sold <= 0:
+            return render_template("give_date.html", error = "Number of batches was too small.")
         if to_be_sold > batches:
             to_be_sold = batches
 
@@ -365,5 +394,5 @@ def create_portfolio():
     else:
         market_service.create_portfolio(owner, date, name)
         portfolio_id = market_service.find_portfolio_id(owner)
-        market_service.add_transaction(date, "", 0, 0, 0, 0, 0, portfolio_id)
+        market_service.add_transaction(date, "company", 0, 0, 0, 0, 0, portfolio_id)
         return redirect_to_portfolio()

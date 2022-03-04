@@ -24,6 +24,13 @@ class MarketService:
     def create_stock(self, company, amount, buy_date, sell_date, buy_price, sell_price, portfolio_id):
         self._market_repository.create_stock(company, amount, buy_date, sell_date, buy_price, sell_price, portfolio_id)
     
+    def create_stat(self, portfolio_name, user_name, investment, result):
+        self._market_repository.create_stat(portfolio_name, user_name, investment, result)
+    
+    def get_stats(self):
+        stats = self._market_repository.get_stats()
+        return stats
+    
     def update_amount(self, company, amount, buy_date, sell_date, buy_price, sell_price, portfolio_id):
         self._market_repository.update_amount(company, amount, buy_date, sell_date, buy_price, sell_price, portfolio_id)
 
@@ -34,9 +41,6 @@ class MarketService:
     def check_portfolio(self, owner):
         check = self._market_repository.check_portfolio(owner)
         return check
-    
-    def delete_portfolio(self, portfolio_id):
-        self._market_repository.delete_portfolio(portfolio_id)
     
     def get_sellable_stocks(self, company, portfolio_id):
         sellable_stocks = self._market_repository.get_sellable_stocks(company, portfolio_id)
@@ -59,8 +63,22 @@ class MarketService:
         return date
 
     def find_transactions(self, portfolio_id):
-            transactions = self._market_repository.find_transactions(portfolio_id)
-            return transactions
+        transactions = []
+        transactionlist = self._market_repository.find_transactions(portfolio_id)
+        for transaction in transactionlist:
+            if transaction[2]!="company":
+                transactions.append(transaction)
+                           
+        return transactions
+    
+    def delete_stocks_by_portfolio(self, portfolio_id):
+        self._market_repository.delete_stocks_by_portfolio(portfolio_id)
+
+    def delete_transactions_by_portfolio(self, portfolio_id):
+        self._market_repository.delete_transactions_by_portfolio(portfolio_id)
+
+    def delete_portfolio_by_owner(self, owner):
+        self._market_repository.delete_portfolio_by_owner(owner)
     
 
 market_service = MarketService()
