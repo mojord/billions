@@ -20,7 +20,7 @@ Pelatun pelin jälkeen salkku tuhotaan ja tuloksista tallentuu suppea tilasto. A
 
 Peli sisältää 12 suomalaisten suosikkiosaketta, eli Pörssisäätiön nimeämää "kansanosaketta", pelivuodet 2020-2021.
 
-"Kansanosakkeet: https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
+"Kansanosakkeet": Pörssisäätiö https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
 
 Kurssitiedot: Nasdaq http://www.nasdaqomxnordic.com/osakkeet/historiallisetkurssitiedot
 
