@@ -144,11 +144,12 @@ def handle_game_over():
     portfolio_id = market_service.find_portfolio_id(owner)
 
 # count value of remaining stocks, buy _price of remaining stocks, balance
-# rem 0 company, rem 1 amount, rem 2 buy_price
+# rem 0 company, rem 1 amount, rem 2 buy_price rem 3 buy_date
 
     endvalue = 0
     invested = 0
     portfolio_balance = 0
+    divs_from_remaining = 0
     
     remaining = market_service.find_remaining_stocks(portfolio_id)
     last_prices = stocks_service.last_day()
@@ -157,40 +158,34 @@ def handle_game_over():
         for rem in remaining:
             for price in last_prices:
                 if rem[0]==price:
-                    print(price) #company
-                    print(last_prices[price]) #price 30.12.
                     endvalue += rem[1]*last_prices[price]
                     invested += rem[1]*rem[2]
-                    print(rem[1])
-                    print(rem[0])
-                    print(rem[2])
-        print(endvalue)
-        print(invested)
+
         portfolio_balance = endvalue-invested
 
     # count dividends for remaining stocks, spaghetti, refactor
-        divs_from_remaining = 0
+        
         div20 = stocks_service.dividends_2020()
         div21 = stocks_service.dividends_2021()
 
         for div in div20:
             for rem in remaining:
-                if div==rem[1]:
+
+                if div==rem[0]:
                     if rem[3] < div20[div][0]:
-                        divs_from_remaining += div20[div][1] * rem[2]
+                        divs_from_remaining += div20[div][1] * rem[1]
         for div in div21:
-            if div==rem[1]:
-                if rem[3] < div21[div][0]:
-                    divs_from_remaining += div21[div][1] * rem[2]
-        
-#        print(divs_from_remaining)
+            for rem in remaining:
+                if div==rem[0]:
+                    if rem[3] < div21[div][0]:
+                        divs_from_remaining += div21[div][1] * rem[1]
 
 # count rest of the stats
 
     transactions = market_service.find_transactions(portfolio_id)
 
     sales_balance = 0
-    dividends = 0
+    dividends = divs_from_remaining
     banking = 0
     result = 0
     taxes = 0
@@ -235,13 +230,13 @@ def handle_game_over():
 
 #create stats
     stat_result = float(percent)
-    market_service.create_stat(portfolio, owner, investment_stat, stat_result)
+    if expenses != 0:
+        market_service.create_stat(portfolio, owner, investment_stat, stat_result)
 
 #delete portfolio
     market_service.delete_stocks_by_portfolio(portfolio_id)
     market_service.delete_transactions_by_portfolio(portfolio_id)
     market_service.delete_portfolio_by_owner(owner)
-
 
     return render_template("game_over.html", portfolio=portfolio, endvalue=endvalue, transactions=transactions, portfolio_balance=portfolio_balance, sales_balance=sales_balance, dividends=dividends, banking=banking, bought=bought, sold=sold, taxes=taxes, result=result, final=final, percent=percent)
             
@@ -271,11 +266,6 @@ def handle_choose_stock():
     portfolio_id = market_service.find_portfolio_id(owner)
     latest = market_service.get_latest_transaction(portfolio_id)
 
-    print(type(ending))
-    print(end)
-
-    print(latest>given_date)
-
     if latest > given_date:
         return render_template("give_date.html", error = "Game has already passed this date. Please give a later date.")
     
@@ -303,9 +293,6 @@ def handle_choose_stock():
 @app.route("/buying/<company>/<date>/<price>", methods=["GET"])
 def render_buying(company, date, price):
 
-    print("render buy page")
-    print(company)
-    
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
 
@@ -355,9 +342,7 @@ def render_selling(company, date, price):
 
 @app.route("/selling/<company>/<date>/<price>", methods=["GET","POST"])
 def handle_selling(company, date, price):
-    
-    print("handling sale")
-    
+        
     owner = session["username"]
     portfolio_id = market_service.find_portfolio_id(owner)
     sellable_stocks = market_service.get_sellable_stocks(company, portfolio_id)
@@ -414,6 +399,8 @@ def create_portfolio():
     date = "01.01.2020"
     if market_service.check_portfolio(owner):
         return render_template("portfolio.html", error = "You already have a portfolio.")
+    if not name:
+        return render_template("portfolio.html", error = "Please provide a name.")
     else:
         market_service.create_portfolio(owner, date, name)
         portfolio_id = market_service.find_portfolio_id(owner)
