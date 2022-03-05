@@ -4,6 +4,7 @@ from datetime import datetime
 
 dirname = os.path.dirname(__file__)
 
+#refactor class name
 class StocksService:
     def __init__(self):
         self._file = {}
@@ -20,8 +21,6 @@ class StocksService:
     def give_values(self,label,date,list):
         for key,value in list.items():
             if key == date:            
-#                print(key, value)
-#        print(f"tässä päiväys {date}")
                 return label, value[0], value[1], date
     
     def last_day(self):

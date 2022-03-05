@@ -2,7 +2,6 @@ import os
 
 #dirname = os.path.dirname(__file__)
 
-
 from datetime import datetime, timedelta
 
 class CSVReader():
@@ -18,7 +17,7 @@ class CSVReader():
             FileNotFoundError:
                 When filename not found.
         """
-# ? lukee kovakoodatusti csv:t omiksi hashmapeiksi "nordea" jne
+
         stocks = {}
         try:
             with open(self.file) as fname:
@@ -38,15 +37,3 @@ class CSVReader():
             raise FileNotFoundError("File not found.")
 
         return stocks
-
-#if __name__ == "__main__":
-
-#    path = os.path.join(dirname, "NDA.csv")
-#    reader = FileReader(path)
-#    lukija = FileReader("NDA.csv")
-#    nordea = reader.read()
-#
-#    print("I've read your file.")
-#
-#    for key,value in nordea.items():
-#        print(key, value)
