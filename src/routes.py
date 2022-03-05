@@ -92,8 +92,8 @@ def handle_register():
     if len(password) < 4:
         return render_template("register.html", error = "Password must be at least 4 characters")
 
-    if len(username) < 3:
-        return render_template("register.html", error = "Username must be at least 3 characters")
+    if len(username) < 3 or len(username) > 20:
+        return render_template("register.html", error = "Username must be at least 3 and max 20 characters")
             
     user_service.create_user(username, password)    
     return redirect_to_login()
@@ -254,8 +254,12 @@ def handle_choose_stock():
     date_given = request.form["date"]
     if not date_given:
         return render_template("give_date.html", error = "Please give a date.")
-        
-    date = datetime.strptime(date_given, "%d.%m.%Y")
+
+    try:    
+        date = datetime.strptime(date_given, "%d.%m.%Y")
+    except ValueError:
+        return render_template("give_date.html", error = "Please give date in dd.mm.yyyy or d.m.yyyy format.")
+
     given_date = datetime.date(date)
     
     end_date = "31.12.2021"
@@ -400,7 +404,9 @@ def create_portfolio():
     if market_service.check_portfolio(owner):
         return render_template("portfolio.html", error = "You already have a portfolio.")
     if not name:
-        return render_template("portfolio.html", error = "Please provide a name.")
+        return render_template("create_portfolio.html", error = "Please provide a name.")
+    if len(name) > 20:
+        return render_template("create_portfolio.html", error = "Max length is 20 characters.")
     else:
         market_service.create_portfolio(owner, date, name)
         portfolio_id = market_service.find_portfolio_id(owner)
