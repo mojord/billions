@@ -19,9 +19,12 @@ Peli näyttää päivämäärän mukaan myös salkun sisällön ja sijoitusten h
 Pelatun pelin jälkeen salkku tuhotaan ja tuloksista tallentuu suppea tilasto. Alkusivun galleria näyttää salkkujen prosentuaalisen menestyksen. Sitä voi tarkastella rekisteröitymättä.
 
 Peli sisältää 12 suomalaisten suosikkiosaketta, eli Pörssisäätiön nimeämää "kansanosaketta", pelivuodet 2020-2021.
-### "Kansanosakkeet: https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
-### Kurssitiedot: Nasdaq http://www.nasdaqomxnordic.com/osakkeet/historiallisetkurssitiedot
-### Osinkotiedot: Taloussanomat osinkokalenteri https://www.is.fi/taloussanomat/osinkokalenteri/alma-media/alma/
+
+"Kansanosakkeet: https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
+
+Kurssitiedot: Nasdaq http://www.nasdaqomxnordic.com/osakkeet/historiallisetkurssitiedot
+
+Osinkotiedot: Taloussanomat osinkokalenteri https://www.is.fi/taloussanomat/osinkokalenteri/alma-media/alma/
 
 # Sovellus loppupalautuksessa
 
