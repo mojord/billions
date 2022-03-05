@@ -4,7 +4,7 @@
 
 Billions on osakesijoituspeli, jolla leikkimällä voi tutustua osakesijoittamiseen Helsingin pörssissä. Pääpaino ei ole pelillisyydessä, vaan salkkujen onnistumisen vertailussa.
 
-In Billions, you can try your luck in the Helsinki stockmarket, and see what investing in shares is like - giving sums and clicking buttons. For suspense, you have to think you are actually using your own money, or even better, loan money. The game is in English.
+In Billions, you can try your luck at the Helsinki stockmarket, and see what investing in shares is like - giving sums and clicking buttons. For suspense, you have to think you are actually using your own money, or even better, loan money. The game is in English.
 
 ## Kuvaus
 
@@ -18,9 +18,10 @@ Peli näyttää päivämäärän mukaan myös salkun sisällön ja sijoitusten h
 
 Pelatun pelin jälkeen salkku tuhotaan ja tuloksista tallentuu suppea tilasto. Alkusivun galleria näyttää salkkujen prosentuaalisen menestyksen. Sitä voi tarkastella rekisteröitymättä.
 
-Peli sisältää 12 suomalaisten suosikkiosaketta, eli Pörssisäätiön nimeämää "kansanosaketta", pelivuodet 2020-2021. https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
-Kurssitietojen lähde: Nasdaq http://www.nasdaqomxnordic.com/osakkeet/historiallisetkurssitiedot
-Osinkotietojen lähde: Taloussanomat osinkokalenteri https://www.is.fi/taloussanomat/osinkokalenteri/alma-media/alma/
+Peli sisältää 12 suomalaisten suosikkiosaketta, eli Pörssisäätiön nimeämää "kansanosaketta", pelivuodet 2020-2021.
+### "Kansanosakkeet: https://www.porssisaatio.fi/blog/statistics/kansanosakkeet/
+### Kurssitiedot: Nasdaq http://www.nasdaqomxnordic.com/osakkeet/historiallisetkurssitiedot
+### Osinkotiedot: Taloussanomat osinkokalenteri https://www.is.fi/taloussanomat/osinkokalenteri/alma-media/alma/
 
 # Sovellus loppupalautuksessa
 
