@@ -28,10 +28,12 @@ Osinkotiedot: Taloussanomat osinkokalenteri https://www.is.fi/taloussanomat/osin
 
 # Sovellus loppupalautuksessa
 
-under construction
+Suurin osa alkuperäisistä tavoitteista saatiin toteutettua. Ideaalitilanteessa aika olisi pidempi ja mukana inflaation vaikutus ja vertailu esim. OMX-indeksiin. Monien toimintojen toteuttaminen osoittautui yllättävän monimutkaiseksi, ja joitain syötetarkistuksia oli viime hetkellä laastaroitava kömpelösti. Yleisimmät virheet saatiin pois, mutta ei ihan kaikkia olennaisia. Tietokantametodit olisivat vielä kaivanneet virtaviivaistamista. Koska SELECT * FROM-kyselyn huonouden syistä ei saatu vastausta kurssilla, referoitiin seuraavaa https://dzone.com/articles/why-you-should-not-use-select-in-sql-query-1. Jäljelle jätettiin pari tuon tyypin kyselyä, jotka eivät riko lähteessä mainittuja periaatteita.
+
+Sovellukseen jäi jonkin verran toistavaa koodia, koska ei ollut aikaa riittävään refaktorointiin. Siinä on myös joitain metodeja ja rakenneratkaisuja, jotka ovat tarpeen jatkokehityksen kannalta, mutta eivät vielä ole käytössä. Tärkeänä on pidetty myös sitä, että koodi pysyy itselle luettavana ja sen vuoksi jossain ei ole käytetty kaikkein eleganteimpia ratkaisuja, vaan sellaisia, joiden kulkua on helppo itse seurata sovelluksen kasvaessa ja monimutkaistuessa.
 
 # Heroku
 
-Sovellus on testattavissa Herokussa:
+Sovellus on testattavissa Herokussa. Sillä on testikäyttäjä tester salasanalla tester123. Käyttäjälle on luotu salkku ja ostettu siihen osakkeita. Mutta salkku tietysti katoaa, jos testaaja pelaa pelin loppuun (tai muuttuu pelikelvottomaksi "ajankulun" vuoksi).
 
 [Billions](https://nasdaq-billions.herokuapp.com/)
